@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+
+    <title>Data Breach</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row mt-5">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+          <div class="card text-center">
+            <div class="card-header">⚡ CEK KEBOCORAN DATA⚡</div>
+            <div class="card-body">
+              <p class="card-text">
+                Pelanggaran data adalah pelanggaran keamanan, di mana data
+                sensitif, dilindungi, atau rahasia disalin, dikirim, dilihat,
+                dicuri, atau digunakan oleh individu yang tidak berwenang untuk
+                melakukannya. masukan emailmu untuk melihat apakah datamu aman
+                atau tidak.
+              </p>
+              <h5>Masukan Email</h5>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                class="form-control"
+                placeholder="Example : email@email.com"
+              />
+              <br />
+              <input
+                type="button"
+                id="tombol"
+                onclick="getdata()"
+                class="btn btn-primary"
+                value="Cari"
+              />
+            </div>
+            <div class="card-footer text-muted">Made with ❤ @moh.alhilal</div>
+          </div>
+        </div>
+        <div class="col-md-3"></div>
+      </div>
+      <div class="row mt-5">
+        <div class="col-12">
+          <div id="status" class="m-5"></div>
+          <div id="content" style="display: none">
+            <div class="table-responsive">
+              <table class="table">
+                <thead class="table-dark">
+                  <tr>
+                    <td>Tanggal</td>
+                    <td>Logo</td>
+                    <td>Nama Platform</td>
+                    <td>Judul</td>
+                    <td>Deskripsi</td>
+                    <td>Data yang rentan</td>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 text-center">
+          <h2>Thanks to:</h2>
+          <pre>
+-taqin.tech (API)
+- Jquery (Library)
+- Axios (Library)
+- Bootstrap (Framework)
+          </pre>
+        </div>
+        <div class="col-md-3"></div>
+      </div>
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.1.js"
+      integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      function getdata() {
+        $("table tbody").empty();
+        $("#status").empty();
+        $("#content").attr("style", "display:none;");
+        $("#tombol").prop("value", "Loading...").prop("disabled", true);
+
+        let email = document.getElementById("email").value;
+
+        if (email !== "") {
+          axios
+            .get("http://git.taqin.tech:1337/pwned/" + email)
+            .then(function (response) {
+              $("#tombol").prop("value", "Cari").prop("disabled", false);
+              if (response.data.length !== 0) {
+                let data = response.data;
+                tableBody = $("table tbody");
+                data.forEach(myFunction);
+                $("#status").append(
+                  '<div class="alert alert-danger" role="alert">Data Ditemukan!</div>'
+                );
+                $("#content").attr("style", "display:block;");
+              } else {
+                $("#status").append(
+                  '<div class="alert alert-success" role="alert">Datamu Aman!</div>'
+                );
+              }
+
+              function myFunction(item) {
+                let data_breached = item.data_breached.toString();
+                markup =
+                  "<tr><td>" +
+                  item.tanggal +
+                  "</td><td><img src='" +
+                  item.logo +
+                  "'' witdh='30px'></td><td>" +
+                  item.nama +
+                  "</td><td>" +
+                  item.judul +
+                  "</td><td style='text-size:8pt;'>" +
+                  item.deskripsi +
+                  "</td><td>" +
+                  data_breached +
+                  "</td></tr>";
+                tableBody.append(markup);
+              }
+            });
+        } else {
+          alert("Masukan Alamat email");
+          $("#tombol").prop("value", "Cari").prop("disabled", false);
+        }
+      }
+    </script>
+  </body>
+</html>
