@@ -111,7 +111,7 @@
 
         if (email !== "") {
           axios
-            .get("http://git.taqin.tech:1337/pwned/" + email)
+            .get("https://git.taqin.tech:1337/pwned/" + email)
             .then(function (response) {
               $("#tombol").prop("value", "Cari").prop("disabled", false);
               if (response.data.length !== 0) {
