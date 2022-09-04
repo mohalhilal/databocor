@@ -122,7 +122,11 @@
                   '<div class="alert alert-danger" role="alert">Data Ditemukan!</div>'
                 );
                 $("#content").attr("style", "display:block;");
-              } else {
+              } else if(responden.data.status !== ""){
+$("#status").append(
+                  '<div class="alert alert-success" role="alert">Datamu Aman!</div>'
+                );
+}else {
                 $("#status").append(
                   '<div class="alert alert-success" role="alert">Datamu Aman!</div>'
                 );
