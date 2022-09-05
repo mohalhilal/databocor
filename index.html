@@ -111,7 +111,11 @@
 
         if (email !== "") {
           axios
-            .get("https://git.taqin.tech:1338/pwned/" + email)
+            .get("https://git.taqin.tech:1338/pwned/" + email, {
+  headers: {
+    'Access-Control-Allow-Origin': '*'
+  }
+})
             .then(function (response) {
               $("#tombol").prop("value", "Cari").prop("disabled", false);
               if (response.data.length !== 0) {
