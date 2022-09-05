@@ -113,7 +113,9 @@
           axios
             .get("https://git.taqin.tech:1338/pwned/" + email, {
   headers: {
-    'Access-Control-Allow-Origin': '*'
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers' : 'Authorization, Content-Type',
+    'content-type:' : 'application/json; charset=utf-8'
   }
 })
             .then(function (response) {
